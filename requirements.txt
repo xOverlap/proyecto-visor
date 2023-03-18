@@ -1,0 +1,6 @@
+# Imported modules from fastapi import FastAPI, File, UploadFile, from fastapi.responses import FileResponse, import os, zipfile, tabula
+
+fastapi[all]
+uvicorn
+tabula-py
+pandas
