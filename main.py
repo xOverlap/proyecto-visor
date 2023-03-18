@@ -21,19 +21,20 @@ app.add_middleware(
 
 @app.post("/api/v1/convert-pdf-to-csv")
 async def convert(file: UploadFile = File(...)):
-    if os.path.exists("pdf_files"):
-        for pdf_file_ in os.listdir("pdf_files"):
-            os.remove(os.path.join("pdf_files", pdf_file_))
-        os.rmdir("pdf_files")
-        
-    if os.path.exists("csv_files"):
-        for csv_file_ in os.listdir("csv_files"):
-            a = open(os.path.join("csv_files", csv_file_), "rb")
-            a = a.close()
+    def deleteFiles():
+        if os.path.exists("pdf_files"):
+            for pdf_file_ in os.listdir("pdf_files"):
+                os.remove(os.path.join("pdf_files", pdf_file_))
+            os.rmdir("pdf_files")
+            
+        if os.path.exists("csv_files"):
+            for csv_file_ in os.listdir("csv_files"):
+                a = open(os.path.join("csv_files", csv_file_), "rb")
+                a = a.close()
 
-            os.remove(os.path.join("csv_files", csv_file_))
-
-        os.rmdir("csv_files")
+                os.remove(os.path.join("csv_files", csv_file_))
+            os.rmdir("csv_files")
+    deleteFiles()
     os.mkdir("pdf_files")
     # Guardar el PDF recibido en el directorio pdf_files
     file_name = os.path.join("pdf_files", file.filename)
@@ -81,4 +82,5 @@ async def convert(file: UploadFile = File(...)):
         file_contents = data.read()
         data.close()
         response = StreamingResponse(BytesIO(file_contents), media_type="application/zip", headers={"Content-Disposition": "attachment; filename=csv_files.zip"})
+        deleteFiles()
         return response
