@@ -66,10 +66,13 @@ function App() {
     }
 
     function selectOptions(file) {
-        let options = ["pdf", "csv", "html", "xls", "doc", "docx"];
+        let options = ["pdf", "csv", "html", "xls", "xlsx", "doc", "docx"];
         let extention = extractExtention(file);
         options.map((option, i) => {
             if (option === extention){
+                options.splice(i, 1)
+            }
+            if ((extention === "pdf" && option === "html") /*|| (extention === "pdf" && option === "doc")*/){
                 options.splice(i, 1)
             }
         })
@@ -107,7 +110,7 @@ function App() {
     function downloadButton(boolean) {
         if (boolean) {
             return (
-                <button onClick={() => {fileDownload(downloadUrl, `${getFileName(selectedFile.name)}.zip`)}}> <DownloadIcon size={24}/> Download</button>
+                <button onClick={() => {fileDownload(downloadUrl, `${getFileName(selectedFile.name)}.zip`)}}> <DownloadIcon size={24}/> Descargar</button>
             )
         } else {
             return (<span></span>)
@@ -127,11 +130,11 @@ function App() {
     return (
         <div className='App'>
             <form id='formButton' onSubmit={handleFileSubmit} className='py-2'>
-                <label id='labelButton' htmlFor="fileInput" className="py-2 px-4 flex w-28 justify-center items-center bg-red-600 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md  rounded-lg mx-auto">
+                <label id='labelButton' htmlFor="fileInput" className="py-2 px-4 flex w-40 justify-center items-center bg-red-600 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md  rounded-lg mx-auto">
                     <span className='mr-2 transition'>
                         <UploadIcon size={24} id="uploadIcon"/>
                     </span>
-                    Upload
+                    Subir archivo
                 </label>
                 <input type="file" id='fileInput' accept='.pdf, .csv, .xsl, .doc, .docx' onChange={handleFileInputChange} className="hidden"/>
             </form>
@@ -149,7 +152,7 @@ function App() {
                         </option>
                         {selectOptions(selectedFile)}
                     </select>
-                    <button type='submit' onClick={handleClick} className='my-2'>Click Me</button>
+                    <button type='submit' onClick={handleClick} className='my-2 bg-[#1a1a1a]'>Convertir</button>
                     <div>
                         {loadingFunc(loading)}
                         {errorMessages(errorCode)}

@@ -4,3 +4,5 @@ fastapi[all]
 uvicorn
 tabula-py
 pandas
+openpyxl
+xlwt
