@@ -6,3 +6,8 @@ tabula-py
 pandas
 openpyxl
 xlwt
+xlrd
+pyexcel
+pyexcel-xls
+pyexcel-xlsx
+docx2pdf
