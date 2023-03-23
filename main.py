@@ -2010,3 +2010,63 @@ async def convert_docx_xls(file: UploadFile = File(...)):
     response = StreamingResponse(BytesIO(file_contents), media_type="application/xls", headers={"Content-Disposition": "attachment; filename=xls_files.zip"})
     deleteFiles()
     return response
+
+
+@app.post("/api/v1/convert-zip-to-pdf")
+async def convert_html_pdf(file: UploadFile = File(...)):
+    import zipfile
+    import tempfile
+    import os
+    import pdfkit
+    def deleteFiles():
+        # Si la carpeta pdf_files existe, elimina todos los archivos PDF y luego elimina la carpeta pdf_files
+        if os.path.exists("html_to_pdf_files"):
+            for docx_file_ in os.listdir("html_to_pdf_files"):
+                os.remove(os.path.join("html_to_pdf_files", docx_file_))
+            os.rmdir("html_to_pdf_files")
+        # Si la carpeta csv_files existe, elimina todos los archivos CSV y luego elimina la carpeta csv_files
+        if os.path.exists("html_pdf_files"):
+            for html_file_ in os.listdir("html_pdf_files"):
+                a = open(os.path.join("html_pdf_files", html_file_), "rb")
+                a = a.close()
+
+                os.remove(os.path.join("html_pdf_files", html_file_))
+            os.rmdir("html_pdf_files")
+    deleteFiles()
+    # Crea una carpeta para almacenar el PDF recibido
+    os.mkdir("html_to_pdf_files")
+    # Guardar el PDF recibido en el directorio pdf_files
+    file_name = os.path.join("html_to_pdf_files", file.filename)
+    # Abre el archivo PDF en modo binario y lo guarda en el directorio pdf_files
+    with open(file_name, "wb") as buffer:
+        # Lee el archivo PDF en trozos de 1024 bytes
+        while chunk := await file.read(1024):
+            # Escribe el trozo de bytes en el archivo PDF
+            buffer.write(chunk)
+    os.makedirs("html_pdf_files", exist_ok=True)
+    
+
+    # Extract the zipped website to a temporary directory
+    with zipfile.ZipFile(file_name, 'r') as zip_ref:
+        zip_ref.extractall("html_to_pdf_files")
+
+    # Convert the HTML file to a PDF using pdfkit
+    for pdf_file_name in os.listdir("html_to_pdf_files"):
+        if pdf_file_name.endswith(".html"):
+            html_file = os.path.join("html_to_pdf_files", pdf_file_name)
+    pdfkit.from_file(html_file, 'html_pdf_files/converted.pdf')
+
+    zip_file_name = "pdf_file.zip"
+    with zipfile.ZipFile(zip_file_name, "w") as zip_file:
+        # Agrega todos los archivos DOC a la carpeta html_pdf_files
+        for pdf_file_name in os.listdir("html_pdf_files"):
+            html_file = os.path.join("html_pdf_files", pdf_file_name)
+            zip_file.write(html_file, pdf_file_name)
+    # Mueve el archivo zip a la carpeta csv_files
+    os.rename("pdf_file.zip", "html_pdf_files/pdf_file.zip")
+    data = open("html_pdf_files/pdf_file.zip", "rb")
+    file_contents = data.read()
+    data.close()
+    response = StreamingResponse(BytesIO(file_contents), media_type="application/pdf", headers={"Content-Disposition": "attachment; filename=html_files.zip"})
+    deleteFiles()
+    return response

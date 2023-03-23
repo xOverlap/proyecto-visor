@@ -112,7 +112,7 @@ function App() {
     function downloadButton(boolean) {
         if (boolean) {
             return (
-                <button onClick={() => { fileDownload(downloadUrl, `${getFileName(selectedFile.name)}.zip`) }}> <DownloadIcon size={24} /> Descargar</button>
+                <button className='button' onClick={() => { fileDownload(downloadUrl, `${getFileName(selectedFile.name)}.zip`) }}> <DownloadIcon size={24} /> Descargar</button>
             )
         } else {
             return (<span></span>)
@@ -162,7 +162,7 @@ function App() {
         return (
             <>
                 <input class="modal-state" id="modal-1" type="checkbox" />
-                <div class="modal">
+                <div class="modal ">
                     <label class="modal__bg" for="modal-1"></label>
                     <div class="modal__inner">
                         <label class="modal__close" for="modal-1"></label>
@@ -184,7 +184,7 @@ function App() {
 
                 {
                     selectedFile && checkFileExtention(selectedFile) &&
-                    <div>
+                    <div className='centered'>
                         <h2 className='py-2'>Archivo seleccionado: {selectedFile.name}</h2>
                         <select id='archiveType' className="block px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm w-52 focus:outline-none focus:ring-primary-500 focus:border-primary-500 mx-auto my-2" name="animals" value={archiveType} onChange={(e) => setArchiveType(e.target.value)}>
                             <option value="">
@@ -192,7 +192,7 @@ function App() {
                             </option>
                             {selectOptions(selectedFile)}
                         </select>
-                        <button type='submit' onClick={handleClick} className='my-2 bg-[#1a1a1a]'>Convertir</button>
+                        <button type='submit' onClick={handleClick} className=' button my-2 bg-[#1a1a1a]'>Convertir</button>
                         <>
                             {loadingFunc(loading)}
                             {errorMessages(errorCode)}
