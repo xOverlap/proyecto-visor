@@ -1,13 +1,6 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
 #formButton {
   :hover {
-    background-color: rgba(185,28,28,0.98);
+    background-color: rgba(185, 28, 28, 0.98);
   }
 }
 
@@ -24,7 +17,144 @@
   color: #fff;
 }
 
-#logo-img {
-  max-width: 200px;
-  max-height: 200px;
+// Header escrito de forma decente
+.header {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 3fr;
+  column-gap: 5px;
+  padding: 2rem 1rem 1rem 1rem;
+}
+
+.logo {
+  aspect-ratio: 16/9;
+  background-image: url("/Logo-U.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  max-height: 150px;
+}
+
+.title {
+  font-size: larger;
+  font-weight: bold;
+}
+
+.contenido {
+  padding: 15vh 1rem 1rem 1rem;
+}
+
+.uploadButton {
+  background-color: red;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: larger;
+  font-weight: bold;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.selectedFile {
+  padding-top: 1rem;
+}
+
+.writeButton {
+  background-color: transparent;
+  border-radius: 4px;
+  border: 1px solid white;
+  padding: 0.6em 1.2em;
+  font-size: larger;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  right: 3rem;
+  bottom: 3rem;
+}
+
+/* [Object] Modal
+ * =============================== */
+.modal {
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.73);
+  transition: opacity .25s ease;
+}
+
+.modal__bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.modal-state {
+  display: none;
+}
+
+.modal-state:checked+.modal {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-state:checked+.modal .modal__inner {
+  top: 0;
+}
+
+.modal__inner {
+  transition: top .25s ease;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 80%;
+  margin: auto;
+  overflow: auto;
+  border-radius: 5px;
+  padding: 6em 1em 1em;
+  height: 80%;
+  background: #4d4d4d;
+}
+
+.modal__close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  width: 1.1em;
+  height: 1.1em;
+  cursor: pointer;
+}
+
+.modal__close:after,
+.modal__close:before {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 1.5em;
+  background: #ccc;
+  display: block;
+  transform: rotate(45deg);
+  left: 50%;
+  margin: -3px 0 0 -1px;
+  top: 0;
+}
+
+.modal__close:hover:after,
+.modal__close:hover:before {
+  background: #aaa;
+}
+
+.modal__close:before {
+  transform: rotate(-45deg);
 }

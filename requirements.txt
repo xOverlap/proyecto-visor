@@ -11,3 +11,6 @@ pyexcel
 pyexcel-xls
 pyexcel-xlsx
 docx2pdf
+pdf2docx
+fpdf
+openpyxl
