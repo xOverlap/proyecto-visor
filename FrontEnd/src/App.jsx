@@ -112,7 +112,7 @@ function App() {
     function downloadButton(boolean) {
         if (boolean) {
             return (
-                <button className='button' onClick={() => { fileDownload(downloadUrl, `${getFileName(selectedFile.name)}.zip`) }}> <DownloadIcon size={24} /> Descargar</button>
+                <button className='button centered' onClick={() => { fileDownload(downloadUrl, `${getFileName(selectedFile.name)}.zip`) }}> <DownloadIcon size={24} /> Descargar</button>
             )
         } else {
             return (<span></span>)
